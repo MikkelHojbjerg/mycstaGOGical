@@ -1,6 +1,6 @@
 #r "nuget: FSharp.Data"
 open System.Diagnostics
-open System.Text.Json
+open Newtonsoft.Json
 open System
 open System.IO
 open FSharp.Data
@@ -26,6 +26,8 @@ module heimdall =
     let anchorageTimeZone = "Alaskan Standard Time"
 //Heimdal stops his watch
 
+module currTime =
+    let timeNow = System.DateTime.Now.ToLongDateString()
 
 //Urd (God of time and fate) coverts the Anchorage local time to Utc time
 module urd = 
@@ -45,6 +47,10 @@ module urd =
     let toIsoString (timeStamp: DateTime) =
         timeStamp.ToString "yyyy-MM-ddTHH:mm:ssZ"
 
+    let toIsoStringNoSec (timeStamp: DateTime) =
+        timeStamp.ToString "yyyy-MM-ddTHH:mm"
+         
+        
 
 //Kvasir (God of knowledge) takes care of the language barrier with his knowledge and translate the data from a to Json
 module kvasir =
@@ -146,7 +152,7 @@ module mimir =
         }
 
     let runAll (areas: List<string>, f: string -> bool * string) = 
-        areas 
+        areas   
         |> List.map (fun area -> run (area, f)) 
         |> Async.Parallel 
         |> Async.RunSynchronously
