@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "um6kQOuRDaNylVeA7EC3oVZ5kRjYPdyDRMZrPGQk0XCZ+6pr8cKjhHoEv+I/N3jxXU4sgiZX6X6P3J48fh9rXg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mikke\\OneDrive - Aarhus universitet\\Skrivebord\\VSCode\\Uni\\auHack\\InCommodities\\mycstaGOGical\\InC\\InC.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mikke\\.nuget\\packages\\fsharp.core\\7.0.200\\fsharp.core.7.0.200.nupkg.sha512"
+  ],
+  "logs": []
+}
