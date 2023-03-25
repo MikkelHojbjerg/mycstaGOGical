@@ -109,34 +109,28 @@ let run (area: string) =
             printfn "%A" DateTime.Now
             try
                 let response = fetchFromA area
-                try 
-                    let (json, updated) = (toJson (response, area))
-                    let changed = updated <> lastUpadated
+                let (json, updated) = (toJson (response, area))
+                let changed = updated <> lastUpadated
 
-                    if changed then
-                        sendToB json
-                        lastUpadated <- updated
-                        printfn "changed"
-                        
-                        printfn $"updated: {updated}"
-                        let updatedDateTime = convTime.localToUtc ((convTime.parse updated), anchorageTimeZone)
-                        let now = DateTime.UtcNow 
-                        let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(updatedDateTime).TotalMilliseconds))
-                        let twentyNineMins = 29 * 60 * 1000
-                        let wait = twentyNineMins - delay
-                        printfn $"Waiting {wait} milliseconds"
-                        do! Async.Sleep (wait)
-                    else
-                        printfn "not changed"
-                        do! Async.Sleep (10000)
-                with
-                    | ex -> 
-                        printfn $"Failed: {ex}"
-                
+                if changed then
+                    sendToB json
+                    lastUpadated <- updated
+                    printfn "changed"
+                    
+                    printfn $"updated: {updated}"
+                    let updatedDateTime = convTime.localToUtc ((convTime.parse updated), anchorageTimeZone)
+                    let now = DateTime.UtcNow 
+                    let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(updatedDateTime).TotalMilliseconds))
+                    let twentyNineMins = 29 * 60 * 1000
+                    let wait = twentyNineMins - delay
+                    printfn $"Waiting {wait} milliseconds"
+                    do! Async.Sleep (wait)
+                else
+                    printfn "not changed"
+                    do! Async.Sleep (5000)
             with
-                | ex ->
-                    printfn $"Failed contacting A - Trying again in 2 minutes. \n{ex}"
-                    do! Async.Sleep (2 * 60 * 1000)
+                | ex -> 
+                    printfn $"Failed: {ex}"
     }
 
 areas 
