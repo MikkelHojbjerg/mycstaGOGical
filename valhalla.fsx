@@ -134,7 +134,7 @@ module mimir =
         }
 
     let runAll (areas: List<string>, f: string -> bool * string) = 
-        areas 
+        areas   
         |> List.map (fun area -> run (area, f)) 
         |> Async.Parallel 
         |> Async.RunSynchronously
