@@ -8,15 +8,15 @@ open FSharp.Data
 open Valhalla
 
 
-//     ********  *******    **    **  ********  *******  
-//    /**/////  /**////**  //**  **  /**/////  /**////** 
-//    /**       /**   /**   //****   /**       /**   /** 
-//    /*******  /*******     //**    /*******  /*******  
-//    /**////   /**///**      /**    /**////   /**///**  
-//    /**       /**  //**     /**    /**       /**  //** 
-//    /**       /**   //**    /**    /******** /**   //**
-//    //        //     //     //     ////////  //     // 
-//Freyr (The godess of rain and sunshines) let's us know about the weather
+//  ********     *******    ********     **    **   *******  
+//  /**/////    /**////**   /**/////    //**  **   /**////** 
+//  /**         /**   /**   /**          //****    /**   /** 
+//  /*******    /*******    /*******      //**     /*******  
+//  /**////     /**///**    /**////        /**     /**///**  
+//  /**         /**  //**   /**            /**     /**  //** 
+//  /**         /**   //**  /********      /**     /**   //**
+//  //          //     //   ////////       //      //     // 
+//Freyr (The god of rain and sunshines) let's us know about the weather
 
 //Gets data from a
 let fetchFromA (area: string) =
@@ -45,3 +45,5 @@ let run () =
                 printfn "%s\n\n%s" json lastJson
             else
                 printfn "not changed"
+
+//Mimir (The god of wisdom) knows it's wise to checks for updates on server data and if the data is new 
