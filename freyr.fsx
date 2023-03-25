@@ -28,12 +28,14 @@ let sendToB (data: string) =
     let response = Http.RequestString($"{heimdall.urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from B: {response}"
 
+let mutable temp = Map.empty 
 let backToTheFuture (area: string) =
-    let mutable temp = new DateTime (2023, 03, 25, 11, 00, 00)
-    while true do   
         temp <- temp.Subtract (new TimeSpan ( 1, 0, 0))
         let respond = fetchFromATime(area, urd.toIsoStringNoSec(temp))
+        let (json, updated) = (kvasir.toJson (respond, area))
         printfn $"{respond}"
+        
+        
 
 let mutable lastUpdated = Map.empty
 let run (area: string) =
