@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\mikke\\OneDrive - Aarhus universitet\\Skrivebord\\VSCode\\Uni\\auHack\\InCommodities\\mycstaGOGical\\InC\\InC.fsproj": {}
+  },
+  "projects": {
+    "C:\\Users\\mikke\\OneDrive - Aarhus universitet\\Skrivebord\\VSCode\\Uni\\auHack\\InCommodities\\mycstaGOGical\\InC\\InC.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\mikke\\OneDrive - Aarhus universitet\\Skrivebord\\VSCode\\Uni\\auHack\\InCommodities\\mycstaGOGical\\InC\\InC.fsproj",
+        "projectName": "InC",
+        "projectPath": "C:\\Users\\mikke\\OneDrive - Aarhus universitet\\Skrivebord\\VSCode\\Uni\\auHack\\InCommodities\\mycstaGOGical\\InC\\InC.fsproj",
+        "packagesPath": "C:\\Users\\mikke\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mikke\\OneDrive - Aarhus universitet\\Skrivebord\\VSCode\\Uni\\auHack\\InCommodities\\mycstaGOGical\\InC\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\mikke\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\7.0.202\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[7.0.200, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
