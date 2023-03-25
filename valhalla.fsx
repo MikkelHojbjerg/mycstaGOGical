@@ -1,6 +1,6 @@
 #r "nuget: FSharp.Data"
 open System.Diagnostics
-open System.Text.Json
+open Newtonsoft.Json
 open System
 open System.IO
 open FSharp.Data
@@ -26,6 +26,8 @@ module heimdall =
     let anchorageTimeZone = "Alaskan Standard Time"
 //Heimdal stops his watch
 
+module currTime =
+    let timeNow = System.DateTime.Now.ToLongDateString()
 
 //Urd (God of time and fate) coverts the Anchorage local time to Utc time
 module urd = 
