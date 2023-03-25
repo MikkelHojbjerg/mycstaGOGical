@@ -54,6 +54,9 @@ type Forecast = {
 
 let toJson (response: string, area: string) =
     let newLineSplit = Seq.toList(response.Split "\n")
+    if newLineSplit.Length = 1 then 
+        raise (System.Exception "Funny reply")
+
     let mutable forecasts = Array.empty
     let mutable updated = ""
     for i in 1.. newLineSplit.Length-1 do
@@ -129,7 +132,6 @@ let run (area: string) =
                 with
                     | ex -> 
                         printfn $"Failed: {ex}"
-                        do! Async.Sleep (10000)
                 
             with
                 | ex ->
