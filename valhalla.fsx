@@ -104,11 +104,13 @@ module kvasir =
 module mimir =
     let run (area: string, f: string -> bool * string) =
         async {
+            let mutable attemptCount = 0
             while true do
                 printfn "%A" DateTime.Now
                 try
-                    let (changed, updated) = f area
-                        
+                    attemptCount <- 0
+
+                    let (changed, updated) = f area     
                     if changed then
                         printfn $"updated: {updated}"
                         let updatedDateTime = urd.localToUtc ((urd.parse updated), heimdall.anchorageTimeZone)
@@ -120,6 +122,10 @@ module mimir =
                         do! Async.Sleep (wait)
                     else
                         printfn "not changed"
+                        attemptCount <- attemptCount + 1
+                        if attemptCount <= 20 then
+                            printfn "Cooling down"
+                            do! Async.Sleep (1000)
                 with
                     | ex -> 
                         printfn $"Failed: {ex}"
