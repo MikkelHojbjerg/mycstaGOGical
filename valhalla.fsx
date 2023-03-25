@@ -5,8 +5,8 @@ open System
 open System.IO
 open FSharp.Data
 
-//Private module for sensivite data
-module private heimdal =
+//Heimdal process the data used for the API
+module heimdal =
 
     //Defines areas
     let areas = [|
@@ -19,7 +19,7 @@ module private heimdal =
 
     let url_A = "https://incommodities.io/a?area=" //Husk og tilføje "+ "var navn" for area (of den repræsentatne forecast) hvor man gerne vil finde info. se https://www.youtube.com/watch?v=WZNG8UomjSI&ab_channel=JonahLawrence%E2%80%A2DevProTips"
     let url_B = "https://incommodities.io/b"
-    let key = "6b0fb5dad1564780a6bb83a5491e9bc5"
+    let token = "6b0fb5dad1564780a6bb83a5491e9bc5"
 
     //type contanning forecast info
     type ForecastData = {
@@ -39,14 +39,6 @@ module private heimdal =
     //Defines time zone
     let anchorageTimeZone = "Alaskan Standard Time"
 //Heimdal stops his watch
-
-
-//njord helps pass the private let of url, token and areas from heimdal into a public let thats accessable for freyr
-module njord = 
-    let urlA = heimdal.url_A
-    let urlB = heimdal.url_B
-    let token = heimdal.key
-    let areas = heimdal.areas
 
 //Urd coverts the Anchorage local time to Utc time
 module urd = 
