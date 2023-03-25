@@ -5,8 +5,8 @@ open System
 open System.IO
 open FSharp.Data
 
-//Heimdal process the data used for the API
-module heimdal =
+//Heimdall (God of Light and Protection) process the data used for the API
+module heimdall =
 
     //Defines areas
     let areas = [|
@@ -42,7 +42,7 @@ module heimdal =
 //Heimdal stops his watch
 
 
-//Urd coverts the Anchorage local time to Utc time
+//Urd (God of time and fate) coverts the Anchorage local time to Utc time
 module urd = 
     let toUtc (localTimeStamp: string, localTimeZone: string) =
         let dLocal = DateTime.SpecifyKind (
@@ -58,7 +58,7 @@ module urd =
 // printfn "%s" (toUtc ("2023-03-24T11:25:01", "China Standard Time"))
 
 
-//kvasir takes care of the language barrier and translate the data from a to Json
+//Kvasir (God of knowledge) takes care of the language barrier with his knowledge and translate the data from a to Json
 module kvasir =
     let toJson (response: string, area: string) =
         let newLineSplit = Seq.toList(response.Split "\n")
@@ -72,23 +72,23 @@ module kvasir =
             let wind = dataSplit.[4]
             let pressure = dataSplit.[5]
             let somecastData = {
-                heimdal.time = urd.toUtc (localTime, heimdal.anchorageTimeZone)
-                heimdal.temperature = float temperature
-                heimdal.humidity = float humidity
-                heimdal.wind = float wind
-                heimdal.pressure = float pressure
+                heimdall.time = urd.toUtc (localTime, heimdall.anchorageTimeZone)
+                heimdall.temperature = float temperature
+                heimdall.humidity = float humidity
+                heimdall.wind = float wind
+                heimdall.pressure = float pressure
             } 
             forecasts <- Array.append forecasts [| somecastData |]
 
         let forecast = { 
-            heimdal.area = area
-            heimdal.forecast = forecasts
+            heimdall.area = area
+            heimdall.forecast = forecasts
         }
 
         JsonSerializer.Serialize(forecast)
 
 
-//Mimir checks for updates on server data and if the data is new 
+//Mimir (The god of wisdom) knows it's wise to checks for updates on server data and if the data is new 
 module private mimir = 
     let timer = new Timers.Timer(5000.)
     let event = Async.AwaitEvent (timer.Elapsed) |> Async.Ignore

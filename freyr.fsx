@@ -7,26 +7,37 @@ open FSharp.Data
 #load "valhalla.fsx"
 open Valhalla
 
+
+//     ********  *******    **    **  ********  *******  
+//    /**/////  /**////**  //**  **  /**/////  /**////** 
+//    /**       /**   /**   //****   /**       /**   /** 
+//    /*******  /*******     //**    /*******  /*******  
+//    /**////   /**///**      /**    /**////   /**///**  
+//    /**       /**  //**     /**    /**       /**  //** 
+//    /**       /**   //**    /**    /******** /**   //**
+//    //        //     //     //     ////////  //     // 
+//Freyr (The godess of rain and sunshines) let's us know about the weather
+
 //Gets data from a
 let fetchFromA (area: string) =
     //Defines url and adds a area code
-    let url = heimdal.url_A + (area.Replace (" ", "%20"))
+    let url = heimdall.url_A + (area.Replace (" ", "%20"))
     //Sends requests
-    Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdal.token}" ])
+    Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
 
 //Sends data to b
 let sendToB (data: string) =
     //Defines the data obtained from fetch and pushes it to b
-    let response = Http.RequestString($"{heimdal.url_B}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdal.token}" ])
+    let response = Http.RequestString($"{heimdall.url_B}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     //prints data
     printfn $"Response from B: {response}"
 
 
 let mutable lastJson = ""
 let run () =
-        for area in heimdal.areas do
+        for area in heimdall.areas do
             let response = fetchFromA area
-            let json = (thor.toJson (response, area))
+            let json = (kvasir.toJson (response, area))
             if json <> lastJson then
                 sendToB json
                 lastJson <- json
