@@ -108,48 +108,63 @@ module kvasir =
 
 
 module mimir =
-    let waitFrom (from: DateTime, dur: int) =
-        async {
-            let now = DateTime.UtcNow 
-            let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(from).TotalMilliseconds))
-            let expectedInterval = dur * 1000
-            let wait = expectedInterval - delay
-            printfn $"Waiting {wait} milliseconds"
-            do! Async.Sleep (wait)
-        }
+    let waitFrom (from: DateTime, dur: int) = async {
+        let now = DateTime.UtcNow 
+        let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(from).TotalMilliseconds))
+        let expectedInterval = dur * 1000
+        let wait = expectedInterval - delay
+        printfn $"Waiting {wait} milliseconds"
+        do! Async.Sleep (wait)
+    }
 
-    let run (area: string, f: string -> bool * string) =
-        async {
-            let mutable attemptCount = 0
-            while true do
-                printfn "%A" DateTime.Now
-                try
+    let runHist (area: string, f: string -> unit) = async {
+        while true do
+            try
+                f area
+            with
+                | ex ->
+                    printfn $"Failed: {ex}"
+            
+            do! Async.Sleep (20000)
+    }
+
+    let run (area: string, f: string -> bool * string) = async {
+        let mutable attemptCount = 0
+        while true do
+            printfn "%A" DateTime.Now
+            try
+                attemptCount <- 0
+
+                let (changed, updated) = f area     
+                if changed then
+                    printfn "changed"
                     attemptCount <- 0
 
-                    let (changed, updated) = f area     
-                    if changed then
-                        printfn "changed"
-                        attemptCount <- 0
+                    // A strange spike at around -12 seconds has been observed
+                    let updatedDateTime = urd.localToUtc ((urd.parse updated), heimdall.anchorageTimeZone)
+                    do! waitFrom (updatedDateTime, 48)
 
-                        // A strange spike at around -12 seconds has been observed
-                        let updatedDateTime = urd.localToUtc ((urd.parse updated), heimdall.anchorageTimeZone)
-                        do! waitFrom (updatedDateTime, 48)
+                    let (_, updated) = f area
+                    let updatedDateTime = urd.localToUtc ((urd.parse updated), heimdall.anchorageTimeZone)
+                    do! waitFrom (updatedDateTime, 60)
+                else
+                    printfn "not changed"
+                    attemptCount <- attemptCount + 1
 
-                        let (_, updated) = f area
-                        let updatedDateTime = urd.localToUtc ((urd.parse updated), heimdall.anchorageTimeZone)
-                        do! waitFrom (updatedDateTime, 60)
-                    else
-                        printfn "not changed"
-                        attemptCount <- attemptCount + 1
+                    if attemptCount >= 20 then
+                        printfn "Cooling down"
+                        do! Async.Sleep (1000)
 
-                        if attemptCount >= 20 then
-                            printfn "Cooling down"
-                            do! Async.Sleep (1000)
+            with
+                | ex -> 
+                    printfn $"Failed: {ex}"
+    }
 
-                with
-                    | ex -> 
-                        printfn $"Failed: {ex}"
-        }
+    let runAllHist (areas: List<string>, f: string -> unit) =
+        areas   
+        |> List.map (fun area -> runHist (area, f)) 
+        |> Async.Parallel 
+        |> Async.RunSynchronously
 
     let runAll (areas: List<string>, f: string -> bool * string) = 
         areas   

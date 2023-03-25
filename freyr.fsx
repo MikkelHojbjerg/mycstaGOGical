@@ -28,20 +28,23 @@ let sendToB (data: string) =
     let response = Http.RequestString($"{heimdall.urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from B: {response}"
 
-let mutable temp = Map.empty 
+
+let mutable lastChecked = Map.empty 
 let backToTheFuture (area: string) =
-        temp <- temp.Subtract (new TimeSpan ( 1, 0, 0))
-        let respond = fetchFromATime(area, urd.toIsoStringNoSec(temp))
-        let (json, updated) = (kvasir.toJson (respond, area))
-        printfn $"{respond}"
-        
+    let d = if lastChecked.ContainsKey area then lastChecked.[area] else new DateTime(2023, 03, 25, 23, 00, 00)
+    lastChecked <- Map.add area (d.Subtract (new TimeSpan ( 1, 0, 0))) lastChecked 
+    let respond = fetchFromATime(area, urd.toIsoStringNoSec(d))
+    let (json, updated) = (kvasir.toJson (respond, area))
+    sendToB json
+
+mimir.runAllHist (heimdall.areas, backToTheFuture)
         
 
 let mutable lastUpdated = Map.empty
 let run (area: string) =
     let response = fetchFromA area
     let (json, updated) = (kvasir.toJson (response, area))
-    let changed = if (lastUpdated.ContainsKey area) then (updated <>  lastUpdated.[area]) else true
+    let changed = if lastUpdated.ContainsKey area then updated <>  lastUpdated.[area] else true
 
     if changed then
         sendToB json
@@ -53,5 +56,5 @@ let run (area: string) =
     (changed, updated)
 
 
-mimir.runAll (heimdall.areas, run)
+// mimir.runAll (heimdall.areas, run)
 
