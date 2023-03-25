@@ -9,23 +9,31 @@ open FSharp.Data
 #load "valhalla.fsx"
 open Valhalla
 
-let backInTheFuture =
-    let mutable temp = new DateTime (2023, 03, 25, 11, 00, 00)
-    while true do   
-        temp <- temp.Subtract (new TimeSpan (1, 0, 0))
+
+        
 
 let fetchFromA (area: string) =
     let url = heimdall.urlA + (area.Replace (" ", "%20"))
-    let response = Http.RequestString($"{url}", query = ["time= ", $"{backInTheFuture}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
+    let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from A: {response}"
     response
 
+let fetchFromATime (area: string, backToTheFuture: string) =
+    let url = heimdall.urlA + (area.Replace (" ", "%20"))
+    let response = Http.RequestString($"{url}", query = ["time= ", $"{backToTheFuture}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
+    printfn $"Response from A: {response}"
+    response
 
 let sendToB (data: string) =
     let response = Http.RequestString($"{heimdall.urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from B: {response}"
 
-
+let backToTheFuture (area: string) =
+    let mutable temp = new DateTime (2023, 03, 25, 11, 00, 00)
+    while true do   
+        temp <- temp.Subtract (new TimeSpan ( 1, 0, 0))
+        let respond = fetchFromATime(area, urd.toIsoStringNoSec(temp))
+        printfn $"{respond}"
 
 let mutable lastUpdated = Map.empty
 let run (area: string) =
