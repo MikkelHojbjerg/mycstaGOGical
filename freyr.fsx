@@ -35,13 +35,21 @@ let sendToB (data: string) =
 
 let mutable lastJson = ""
 let run () =
-        for area in heimdall.areas do
-            let response = fetchFromA area
-            let json = (kvasir.toJson (response, area))
-            if json <> lastJson then
-                sendToB json
-                lastJson <- json
-                printfn "changed"
-                printfn "%s\n\n%s" json lastJson
-            else
-                printfn "not changed"
+    for area in heimdall.areas do
+        let response = fetchFromA area
+        let json = (kvasir.toJson (response, area))
+        if json <> lastJson then
+            sendToB json
+            lastJson <- json
+            printfn "changed"
+            printfn "%s\n\n%s" json lastJson
+        else
+            printfn "not changed"
+
+
+let timer = new Timers.Timer(5000.)
+let event = Async.AwaitEvent (timer.Elapsed) |> Async.Ignore
+timer.Start()
+while true do
+    run ()
+    Async.RunSynchronously event
