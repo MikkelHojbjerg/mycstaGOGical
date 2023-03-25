@@ -70,12 +70,11 @@ module kvasir =
             raise (System.Exception "Funny reply")
 
         let mutable forecasts = Array.empty
-        let mutable updated = ""
+        let updated = (newLineSplit.[1].Split ",").[1]
         for i in 1.. newLineSplit.Length-1 do
             let dataSplit = newLineSplit.[i].Split ","
 
             let localTime = dataSplit.[0]
-            updated <- dataSplit.[1]
             let temperature = dataSplit.[2]
             let humidity = dataSplit.[3]
             let wind = dataSplit.[4]
@@ -115,13 +114,12 @@ module mimir =
                         let updatedDateTime = urd.localToUtc ((urd.parse updated), heimdall.anchorageTimeZone)
                         let now = DateTime.UtcNow 
                         let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(updatedDateTime).TotalMilliseconds))
-                        let twentyNineMins = 29 * 60 * 1000
-                        let wait = twentyNineMins - delay
+                        let expectedInterval = 60 * 1000 - 200
+                        let wait = expectedInterval - delay
                         printfn $"Waiting {wait} milliseconds"
                         do! Async.Sleep (wait)
                     else
                         printfn "not changed"
-                        do! Async.Sleep (5000)
                 with
                     | ex -> 
                         printfn $"Failed: {ex}"
