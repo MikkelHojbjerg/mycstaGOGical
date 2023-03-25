@@ -7,13 +7,13 @@ open System.IO
 open FSharp
 open FSharp.Data
 
-let areas = [|
+let areas = [
     "Eagle River"
     "Kincaid Park"
     "Far North Bicentennial Park"
     "Bear Valley"
     "Fire Island"
-|]
+]
 
 let anchorageTimeZone = "Alaskan Standard Time"
 
@@ -22,19 +22,24 @@ let urlB = "https://incommodities.io/b"
 let token = "6b0fb5dad1564780a6bb83a5491e9bc5"
 
 module convTime = 
-    let toUtc (localTimeStamp: string, localTimeZone: string) =
+    let parse (localTimeStamp: string) =
+        DateTime.Parse (localTimeStamp, null, System.Globalization.DateTimeStyles.RoundtripKind)
+
+    let localToUtc (localTimeStamp: DateTime, localTimeZone: string) =
         let dLocal = DateTime.SpecifyKind (
-            DateTime.Parse (localTimeStamp, null, System.Globalization.DateTimeStyles.RoundtripKind), 
+            localTimeStamp, 
             System.DateTimeKind.Unspecified
         )
-        let dUtc = System.TimeZoneInfo.ConvertTimeToUtc (
+        System.TimeZoneInfo.ConvertTimeToUtc (
             dLocal, 
             System.TimeZoneInfo.FindSystemTimeZoneById localTimeZone
         )
-        dUtc.ToString "yyyy-MM-ddTHH:mm:ssZ"
+
+    let toIsoString (timeStamp: DateTime) =
+        timeStamp.ToString "yyyy-MM-ddTHH:mm:ssZ"
 
 
-//type contanning forecast info
+// Type containing forecast info
 type ForecastData = {
     time: string
     temperature: float
@@ -50,16 +55,23 @@ type Forecast = {
 let toJson (response: string, area: string) =
     let newLineSplit = Seq.toList(response.Split "\n")
     let mutable forecasts = Array.empty
+    let mutable updated = ""
     for i in 1.. newLineSplit.Length-1 do
         let dataSplit = newLineSplit.[i].Split ","
 
         let localTime = dataSplit.[0]
+        updated <- dataSplit.[1]
         let temperature = dataSplit.[2]
         let humidity = dataSplit.[3]
         let wind = dataSplit.[4]
         let pressure = dataSplit.[5]
+
+        let originalDateTime = convTime.parse localTime
+        let utcDateTime = convTime.localToUtc (originalDateTime, anchorageTimeZone)
+        let utcTime = convTime.toIsoString utcDateTime
+
         let somecastData = {
-            time = convTime.toUtc (localTime, anchorageTimeZone)
+            time = utcTime
             temperature = float temperature
             humidity = float humidity
             wind = float wind
@@ -72,59 +84,61 @@ let toJson (response: string, area: string) =
         forecast = forecasts
     }
 
-    JsonConvert.SerializeObject(forecast)
+    (JsonConvert.SerializeObject(forecast), updated)
 
 
 let fetchFromA (area: string) =
     let url = urlA + (area.Replace (" ", "%20"))
-    Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {token}" ])
+    let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {token}" ])
+    printfn $"Response from A: {response}"
+    response
+
 
 let sendToB (data: string) =
     let response = Http.RequestString($"{urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {token}" ])
     printfn $"Response from B: {response}"
 
 
-let mutable lastJson = ""
-let run () =
-    for area in areas do
-        let response = fetchFromA area
-        let json = (toJson (response, area))
-        if json <> lastJson then
-            sendToB json
-            lastJson <- json
-            printfn "changed"
-            printfn "%s\n\n%s" json lastJson
-        else
-            printfn "not changed"
+let run (area: string) =
+    async {
+        let mutable lastUpadated = ""
+        while true do
+            printfn "%A" DateTime.Now
+            try
+                let response = fetchFromA area
+                try 
+                    let (json, updated) = (toJson (response, area))
+                    let changed = updated <> lastUpadated
 
+                    if changed then
+                        sendToB json
+                        lastUpadated <- updated
+                        printfn "changed"
+                        
+                        printfn $"updated: {updated}"
+                        let updatedDateTime = convTime.localToUtc ((convTime.parse updated), anchorageTimeZone)
+                        let now = DateTime.UtcNow 
+                        let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(updatedDateTime).TotalMilliseconds))
+                        let twentyNineMins = 29 * 60 * 1000
+                        let wait = twentyNineMins - delay
+                        printfn $"Waiting {wait} milliseconds"
+                        do! Async.Sleep (wait)
+                    else
+                        printfn "not changed"
+                        do! Async.Sleep (10000)
+                with
+                    | ex -> 
+                        printfn $"Failed: {ex}"
+                        do! Async.Sleep (10000)
+                
+            with
+                | ex ->
+                    printfn $"Failed contacting A - Trying again in 2 minutes. \n{ex}"
+                    do! Async.Sleep (2 * 60 * 1000)
+    }
 
+areas 
+    |> List.map run 
+    |> Async.Parallel 
+    |> Async.RunSynchronously
 
-let rec attempt () = 
-    try
-        printfn "%A" DateTime.Now
-        run ()
-    with
-        | ex -> attempt ()
-
-
-let timer = new Timers.Timer(5000.)
-let event = Async.AwaitEvent (timer.Elapsed) |> Async.Ignore
-timer.Start()
-while true do
-    attempt ()
-    Async.RunSynchronously event
-
-
-// for z in TimeZoneInfo.GetSystemTimeZones() do
-//     printfn "%s" z.Id
-
-
-
-
-// module requestsData =
-    
-    //Mulig læsestof til http post
-    //https://github.com/fsprojects/FSharp.Data/issues/1392
-
-//Read CSV in F#
-//https://www.youtube.com/watch?v=wBCbdWHzfng&ab_channel=HAMYLABS
