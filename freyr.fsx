@@ -11,15 +11,10 @@ open Valhalla
 
 let fetchFromA (area: string) =
     let url = heimdall.urlA + (area.Replace (" ", "%20"))
-    let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
+    let response = Http.RequestString($"{url}", query = ["time= ", $"{urd.toIsoStringNoSec}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from A: {response}"
     response
 
-//let fetchFromATime (area: string) =
-//    let url = heimdall.urlA + (area.Replace (" ", "%20")) + ("&time=" + currTime.timeNow)
-//    let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
-//    printfn $"Response from A: {response}"
-//    response
 
 let sendToB (data: string) =
     let response = Http.RequestString($"{heimdall.urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
@@ -41,9 +36,6 @@ let run (area: string) =
         printfn "not changed"
     
     (changed, updated)
-
-
-
 
 mimir.runAll (heimdall.areas, run)
 

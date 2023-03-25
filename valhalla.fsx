@@ -47,6 +47,10 @@ module urd =
     let toIsoString (timeStamp: DateTime) =
         timeStamp.ToString "yyyy-MM-ddTHH:mm:ssZ"
 
+    let toIsoStringNoSec (timeStamp: DateTime) =
+        timeStamp.ToString "yyyy-MM-ddTHH:mm"
+         
+        
 
 //Kvasir (God of knowledge) takes care of the language barrier with his knowledge and translate the data from a to Json
 module kvasir =
