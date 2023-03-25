@@ -86,12 +86,3 @@ module kvasir =
         }
 
         JsonSerializer.Serialize(forecast)
-
-
-//Mimir (The god of wisdom) knows it's wise to checks for updates on server data and if the data is new 
-module private mimir = 
-    let timer = new Timers.Timer(5000.)
-    let event = Async.AwaitEvent (timer.Elapsed) |> Async.Ignore
-    timer.Start()
-    while true do
-        Async.RunSynchronously event
