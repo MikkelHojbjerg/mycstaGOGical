@@ -17,6 +17,7 @@ module heimdal =
         "Fire Island"
     |]
 
+    //Url and token for API
     let url_A = "https://incommodities.io/a?area=" //Husk og tilføje "+ "var navn" for area (of den repræsentatne forecast) hvor man gerne vil finde info. se https://www.youtube.com/watch?v=WZNG8UomjSI&ab_channel=JonahLawrence%E2%80%A2DevProTips"
     let url_B = "https://incommodities.io/b"
     let token = "6b0fb5dad1564780a6bb83a5491e9bc5"
@@ -40,6 +41,7 @@ module heimdal =
     let anchorageTimeZone = "Alaskan Standard Time"
 //Heimdal stops his watch
 
+
 //Urd coverts the Anchorage local time to Utc time
 module urd = 
     let toUtc (localTimeStamp: string, localTimeZone: string) =
@@ -52,13 +54,12 @@ module urd =
             System.TimeZoneInfo.FindSystemTimeZoneById localTimeZone
         )
         dUtc.ToString "yyyy-MM-ddTHH:mm:ssZ"
-
-
 // Example:
 // printfn "%s" (toUtc ("2023-03-24T11:25:01", "China Standard Time"))
 
-//Thor takes care of the heavy lifting of the program
-module thor =
+
+//kvasir takes care of the language barrier and translate the data from a to Json
+module kvasir =
     let toJson (response: string, area: string) =
         let newLineSplit = Seq.toList(response.Split "\n")
         let mutable forecasts = Array.empty
