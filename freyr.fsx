@@ -9,9 +9,14 @@ open FSharp.Data
 #load "valhalla.fsx"
 open Valhalla
 
+let backInTheFuture =
+    let mutable temp = new DateTime (2023, 03, 25, 11, 00, 00)
+    while true do   
+        temp <- temp.Subtract (new TimeSpan (1, 0, 0))
+
 let fetchFromA (area: string) =
     let url = heimdall.urlA + (area.Replace (" ", "%20"))
-    let response = Http.RequestString($"{url}", query = ["time= ", $"{urd.toIsoStringNoSec}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
+    let response = Http.RequestString($"{url}", query = ["time= ", $"{backInTheFuture}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from A: {response}"
     response
 
@@ -36,6 +41,7 @@ let run (area: string) =
         printfn "not changed"
     
     (changed, updated)
+
 
 mimir.runAll (heimdall.areas, run)
 
