@@ -21,7 +21,9 @@ open Valhalla
 //Freyr (The god of rain and sunshine) gives us information about the weather
 //Develop by sockmaster27, Jonas, Ali and SjakalUngen
 
+//Gets data from a
 let fetchFromA (area: string) =
+    //Takes url and adds area code and replaces space with %20 which is the UTF-8/hex form of space
     let url = heimdall.urlA + (area.Replace (" ", "%20"))
     let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from A: {response}"
@@ -33,6 +35,7 @@ let fetchFromA (area: string) =
 //    printfn $"Response from A: {response}"
 //    response
 
+//Sends data collected from a to b
 let sendToB (data: string) =
     let response = Http.RequestString($"{heimdall.urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from B: {response}"
@@ -48,13 +51,14 @@ let sendToB (data: string) =
 
 //mimir.runAllHist (heimdall.areas, forwardToThePast)
         
-
+//Checks for updated data
 let mutable lastUpdated = Map.empty
 let run (area: string) =
     let response = fetchFromA area
     let (json, updated) = (kvasir.toJson (response, area))
     let changed = if lastUpdated.ContainsKey area then updated <>  lastUpdated.[area] else true
 
+    //If data is changed then it will be send to b in json form
     if changed then
         sendToB json
         lastUpdated <- Map.add area updated lastUpdated

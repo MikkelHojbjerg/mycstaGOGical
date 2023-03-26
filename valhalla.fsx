@@ -1,3 +1,4 @@
+#r "nuget: Newtonsoft.Json, 13.0.3"
 #r "nuget: FSharp.Data"
 open System.Diagnostics
 open Newtonsoft.Json
@@ -24,10 +25,7 @@ module heimdall =
    
     //Defines time zone
     let anchorageTimeZone = "Alaskan Standard Time"
-//Heimdal stops his watch
-
-module currTime =
-    let timeNow = System.DateTime.Now.ToLongDateString()
+//Heimdal finished his watch
 
 //Urd (God of time and fate) coverts the Anchorage local time to Utc time
 module urd = 
@@ -44,6 +42,7 @@ module urd =
             System.TimeZoneInfo.FindSystemTimeZoneById localTimeZone
         )
 
+    //String to store UTC time in
     let toIsoString (timeStamp: DateTime) =
         timeStamp.ToString "yyyy-MM-ddTHH:mm:ssZ"
 
