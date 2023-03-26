@@ -77,8 +77,11 @@ module kvasir =
         if newLineSplit.Length = 1 then 
             raise (System.Exception "Funny reply")
 
+        //Gets the symbols that separates data values 
+        let separator = response[4]
+
         let mutable forecasts = Array.empty
-        let updated = (newLineSplit.[1].Split ",").[1]
+        let updated = (newLineSplit.[1].Split $"{separator}").[1]
         for i in 1.. newLineSplit.Length-1 do
             let dataSplit = newLineSplit.[i].Split ","
 
