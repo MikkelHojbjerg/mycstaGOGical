@@ -5,6 +5,8 @@ open Newtonsoft.Json
 open System
 open System.IO
 open FSharp.Data
+#load "token.fsx"
+open Token
 
 //Heimdall (God of Light and Protection) process the data used for the API
 module heimdall =
@@ -21,7 +23,7 @@ module heimdall =
     //Url and token for API
     let urlA = "https://incommodities.io/a?area=" //Husk og tilføje "+ "var navn" for area (of den repræsentatne forecast) hvor man gerne vil finde info. se https://www.youtube.com/watch?v=WZNG8UomjSI&ab_channel=JonahLawrence%E2%80%A2DevProTips"
     let urlB = "https://incommodities.io/b"
-    let token = "6b0fb5dad1564780a6bb83a5491e9bc5"
+    let token = $"{Token.theSpecialWord}"
    
     //Defines time zone
     let anchorageTimeZone = "Alaskan Standard Time"
