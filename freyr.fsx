@@ -24,7 +24,7 @@ open Valhalla
 
 //Gets data from a
 let fetchFromA (area: string) =
-    //Takes url and adds area code and replaces space with %20 which is the UTF-8/hex form of space
+    //Uses url from a and adds encoded area sting 
     let url = heimdall.urlA + HttpUtility.UrlEncode(area)
     let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from A: {response}"
