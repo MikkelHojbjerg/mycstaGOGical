@@ -71,7 +71,8 @@ module kvasir =
        forecast: ForecastData[]
     }
 
-    let toJson (response: string, area: string) =
+    //translate CSV into Json, translate timestamps and extracts update time
+    let translate (response: string, area: string) =
         let newLineSplit = Seq.toList(response.Split "\n")
         if newLineSplit.Length = 1 then 
             raise (System.Exception "Funny reply")
@@ -109,6 +110,7 @@ module kvasir =
 
 //Mimir (The god of wisdom) uses his wisdom to know when to look for data
 module mimir =
+    //Self adjust update from prev time stamp 
     let waitFrom (from: DateTime, dur: int) = async {
         let now = DateTime.UtcNow 
         let delay = Convert.ToInt32 (System.Math.Floor (now.Subtract(from).TotalMilliseconds))
@@ -129,6 +131,7 @@ module mimir =
     //        do! Async.Sleep (20000)
     //}
 
+    //Controls timing of pulling 
     let run (area: string, f: string -> bool * string) = async {
         let mutable attemptCount = 0
         while true do
@@ -167,6 +170,7 @@ module mimir =
     //    |> Async.Parallel 
     //    |> Async.RunSynchronously
 
+    //Forks pulling of areas into parrallel processor
     let runAll (areas: List<string>, f: string -> bool * string) = 
         areas   
         |> List.map (fun area -> run (area, f)) 

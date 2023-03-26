@@ -46,7 +46,7 @@ let sendToB (data: string) =
 //    let d = if lastChecked.ContainsKey area then lastChecked.[area] else new DateTime(2023, 03, 25, 23, 00, 00)
 //    lastChecked <- Map.add area (d.Subtract (new TimeSpan ( 1, 0, 0))) lastChecked 
 //    let respond = fetchFromATime(area, urd.toIsoStringNoSec(d))
-//    let (json, updated) = (kvasir.toJson (respond, area))
+//    let (json, updated) = (kvasir.translate (respond, area))
 //    sendToB json
 
 //mimir.runAllHist (heimdall.areas, forwardToThePast)
@@ -55,10 +55,11 @@ let sendToB (data: string) =
 let mutable lastUpdated = Map.empty
 let run (area: string) =
     let response = fetchFromA area
-    let (json, updated) = (kvasir.toJson (response, area))
+    //Parse CSV to Json
+    let (json, updated) = (kvasir.translate (response, area))
     let changed = if lastUpdated.ContainsKey area then updated <>  lastUpdated.[area] else true
 
-    //If data is changed then it will be send to b in json form
+    //If data is changes it will be send to b
     if changed then
         sendToB json
         lastUpdated <- Map.add area updated lastUpdated
@@ -68,6 +69,6 @@ let run (area: string) =
     
     (changed, updated)
 
-
+//See runAll in vahalla.fsx
 mimir.runAll (heimdall.areas, run)
 
