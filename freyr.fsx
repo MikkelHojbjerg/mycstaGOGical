@@ -6,6 +6,7 @@ open System
 open System.IO
 open FSharp
 open FSharp.Data
+open System.Web
 #load "valhalla.fsx"
 open Valhalla
 
@@ -24,7 +25,7 @@ open Valhalla
 //Gets data from a
 let fetchFromA (area: string) =
     //Takes url and adds area code and replaces space with %20 which is the UTF-8/hex form of space
-    let url = heimdall.urlA + (area.Replace (" ", "%20"))
+    let url = heimdall.urlA + HttpUtility.UrlEncode(area)
     let response = Http.RequestString($"{url}", httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from A: {response}"
     response
