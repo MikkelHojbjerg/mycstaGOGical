@@ -9,8 +9,17 @@ open FSharp.Data
 #load "valhalla.fsx"
 open Valhalla
 
+//  ********     *******     ********    **    **     *******  
+//  /**/////    /**////**    /**/////    //**  **    /**////** 
+//  /**         /**   /**    /**          //****     /**   /** 
+//  /*******    /*******     /*******      //**      /*******  
+//  /**////     /**///**     /**////        /**      /**///**  
+//  /**         /**  //**    /**            /**      /**  //** 
+//  /**         /**   //**   /********      /**      /**   //**
+//  //          //     //    ////////       //       //     // 
 
-        
+//Freyr (The god of rain and sunshine) gives us information about the weather
+//Develop by sockmaster27, Jonas, Ali and SjakalUngen
 
 let fetchFromA (area: string) =
     let url = heimdall.urlA + (area.Replace (" ", "%20"))
@@ -18,26 +27,26 @@ let fetchFromA (area: string) =
     printfn $"Response from A: {response}"
     response
 
-let fetchFromATime (area: string, backToTheFuture: string) =
-    let url = heimdall.urlA + (area.Replace (" ", "%20"))
-    let response = Http.RequestString($"{url}", query = ["time= ", $"{backToTheFuture}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
-    printfn $"Response from A: {response}"
-    response
+//let fetchFromATime (area: string, forwardToThePast: string) =
+//    let url = heimdall.urlA + (area.Replace (" ", "%20"))
+//    let response = Http.RequestString($"{url}", query = ["time= ", $"{forwardToThePast}"], httpMethod = "POST", headers = [ "Authorization", $"Bearer {heimdall.token}" ])
+//    printfn $"Response from A: {response}"
+//    response
 
 let sendToB (data: string) =
     let response = Http.RequestString($"{heimdall.urlB}", httpMethod = "POST", body = TextRequest data, headers = [ "Authorization", $"Bearer {heimdall.token}" ])
     printfn $"Response from B: {response}"
 
 
-let mutable lastChecked = Map.empty 
-let backToTheFuture (area: string) =
-    let d = if lastChecked.ContainsKey area then lastChecked.[area] else new DateTime(2023, 03, 25, 23, 00, 00)
-    lastChecked <- Map.add area (d.Subtract (new TimeSpan ( 1, 0, 0))) lastChecked 
-    let respond = fetchFromATime(area, urd.toIsoStringNoSec(d))
-    let (json, updated) = (kvasir.toJson (respond, area))
-    sendToB json
+//let mutable lastChecked = Map.empty 
+//let forwardToThePast (area: string) =
+//    let d = if lastChecked.ContainsKey area then lastChecked.[area] else new DateTime(2023, 03, 25, 23, 00, 00)
+//    lastChecked <- Map.add area (d.Subtract (new TimeSpan ( 1, 0, 0))) lastChecked 
+//    let respond = fetchFromATime(area, urd.toIsoStringNoSec(d))
+//    let (json, updated) = (kvasir.toJson (respond, area))
+//    sendToB json
 
-mimir.runAllHist (heimdall.areas, backToTheFuture)
+//mimir.runAllHist (heimdall.areas, forwardToThePast)
         
 
 let mutable lastUpdated = Map.empty
@@ -56,5 +65,5 @@ let run (area: string) =
     (changed, updated)
 
 
-// mimir.runAll (heimdall.areas, run)
+mimir.runAll (heimdall.areas, run)
 

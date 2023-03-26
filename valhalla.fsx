@@ -47,8 +47,8 @@ module urd =
     let toIsoString (timeStamp: DateTime) =
         timeStamp.ToString "yyyy-MM-ddTHH:mm:ssZ"
 
-    let toIsoStringNoSec (timeStamp: DateTime) =
-        timeStamp.ToString "yyyy-MM-ddTHH:mm"
+    //let toIsoStringNoSec (timeStamp: DateTime) =
+     //   timeStamp.ToString "yyyy-MM-ddTHH:mm"
          
         
 
@@ -106,7 +106,7 @@ module kvasir =
 
         (JsonConvert.SerializeObject(forecast), updated)
 
-
+//Mimir (The god of wisdom) uses his wisdom to know when to look for data
 module mimir =
     let waitFrom (from: DateTime, dur: int) = async {
         let now = DateTime.UtcNow 
@@ -117,16 +117,16 @@ module mimir =
         do! Async.Sleep (wait)
     }
 
-    let runHist (area: string, f: string -> unit) = async {
-        while true do
-            try
-                f area
-            with
-                | ex ->
-                    printfn $"Failed: {ex}"
-            
-            do! Async.Sleep (20000)
-    }
+    //let runHist (area: string, f: string -> unit) = async {
+    //    while true do
+    //        try
+    //            f area
+    //        with
+    //            | ex ->
+    //                printfn $"Failed: {ex}"
+    //        
+    //        do! Async.Sleep (20000)
+    //}
 
     let run (area: string, f: string -> bool * string) = async {
         let mutable attemptCount = 0
@@ -160,11 +160,11 @@ module mimir =
                     printfn $"Failed: {ex}"
     }
 
-    let runAllHist (areas: List<string>, f: string -> unit) =
-        areas   
-        |> List.map (fun area -> runHist (area, f)) 
-        |> Async.Parallel 
-        |> Async.RunSynchronously
+    //let runAllHist (areas: List<string>, f: string -> unit) =
+    //    areas   
+    //    |> List.map (fun area -> runHist (area, f)) 
+    //    |> Async.Parallel 
+    //    |> Async.RunSynchronously
 
     let runAll (areas: List<string>, f: string -> bool * string) = 
         areas   
