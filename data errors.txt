@@ -6,7 +6,7 @@ Failed: System.FormatException: String '2023022820000' was not recognized as a v
    at Microsoft.FSharp.Control.AsyncPrimitives.CallThenInvoke[T,TResult](AsyncActivation`1 ctxt, TResult result1, FSharpFunc`2 part2) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 508
    at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
 
-
+/fixed
 Response from A: Time🐻Forecast time🐻Temperature🐻Humidity🐻Wind🐻Pressure
 2023-02-25T03:00:00🐻2023-03-25T17:45:01🐻-29.6🐻61.95🐻2🐻45.047
 2023-02-25T04:00:00🐻2023-03-25T17:44:01🐻-48🐻69.04🐻2🐻32.473
@@ -42,7 +42,7 @@ Failed: System.IndexOutOfRangeException: Index was outside the bounds of the arr
 
 
 
-
+/fixed
 Failed: System.Net.WebException: The remote server returned an error: (418) I'm a teapot.
 Response from https://incommodities.io/a?area=Eagle%20River&time%3D%20=2023-03-18T18%3A00:
 I'm a teapot
