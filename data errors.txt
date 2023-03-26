@@ -1,0 +1,77 @@
+Failed: System.FormatException: String '2023022820000' was not recognized as a valid DateTime.
+   at FSI_0003.Valhalla.kvasir.toJson(String response, String area) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/valhalla.fsx:line 89
+   at FSI_0005.backToTheFuture(String area) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/freyr.fsx:line 37
+   at FSI_0005.clo@40.Invoke(String area)
+   at FSI_0003.Valhalla.mimir.runHist@123-3.Invoke(Unit unitVar) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/valhalla.fsx:line 123
+   at Microsoft.FSharp.Control.AsyncPrimitives.CallThenInvoke[T,TResult](AsyncActivation`1 ctxt, TResult result1, FSharpFunc`2 part2) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 508
+   at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
+
+
+Response from A: Time🐻Forecast time🐻Temperature🐻Humidity🐻Wind🐻Pressure
+2023-02-25T03:00:00🐻2023-03-25T17:45:01🐻-29.6🐻61.95🐻2🐻45.047
+2023-02-25T04:00:00🐻2023-03-25T17:44:01🐻-48🐻69.04🐻2🐻32.473
+2023-02-25T05:00:00🐻2023-03-25T17:43:01🐻-39🐻52.09🐻6.8🐻43.134
+2023-02-25T06:00:00🐻2023-03-25T17:42:01🐻-27.1🐻50.29🐻4.6🐻41.157
+2023-02-25T07:00:00🐻2023-03-25T17:41:01🐻-43🐻36.67🐻7.5🐻33.762
+2023-02-25T08:00:00🐻2023-03-25T17:40:01🐻-25.7🐻68.68🐻6.9🐻37.415
+2023-02-25T09:00:00🐻2023-03-25T17:39:01🐻5.7🐻50.31🐻1.3🐻48.153
+2023-02-25T10:00:00🐻2023-03-25T17:38:01🐻76.3🐻46.09🐻3🐻37.687
+2023-02-25T11:00:00🐻2023-03-25T17:37:01🐻54🐻58.39🐻6.5🐻47.803
+2023-02-25T12:00:00🐻2023-03-25T17:36:01🐻-18.8🐻59.96🐻8.8🐻48.505
+2023-02-25T13:00:00🐻2023-03-25T17:35:01🐻-11🐻43.15🐻2.3🐻43.823
+2023-02-25T14:00:00🐻2023-03-25T17:34:01🐻47.9🐻60.75🐻1.7🐻46.246
+2023-02-25T15:00:00🐻2023-03-25T17:33:01🐻32🐻47.5🐻3.9🐻32.657
+2023-02-25T16:00:00🐻2023-03-25T17:32:01🐻-40.2🐻57.3🐻9.3🐻42.435
+2023-02-25T17:00:00🐻2023-03-25T17:31:01🐻-3.9🐻51.52🐻7🐻40.611
+2023-02-25T18:00:00🐻2023-03-25T17:30:01🐻-13.9🐻58.6🐻7.5🐻30.963
+2023-03-26T18:00:00🐻2023-03-25T17:30:01🐻57.8🐻36.65🐻3.8🐻41.684
+2023-03-26T17:00:00🐻2023-03-25T17:30:01🐻-0.5🐻37.81🐻5.1🐻29.295
+2023-03-26T16:00:00🐻2023-03-25T17:30:01🐻81.5🐻32.03🐻8.7🐻38.769
+2023-03-26T15:00:00🐻2023-03-25T17:30:01🐻23.3🐻68.85🐻6.4🐻46.243
+2023-03-26T14:00:00🐻2023-03-25T17:30:01🐻33.5🐻37.95🐻3.5🐻43.9
+2023-03-26T13:00:00🐻2023-03-25T17:30:01🐻35.5🐻43.68🐻8.4🐻31.14
+2023-03-26T12:00:00🐻2023-03-25T17:30:01🐻32.6🐻38.6🐻8🐻36.388
+2023-03-26T11:00:00🐻2023-03-25T17:30:01🐻82.8🐻59.1🐻7.4🐻40.826
+Failed: System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at FSI_0003.Valhalla.kvasir.toJson(String response, String area) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/valhalla.fsx:line 74
+   at FSI_0005.backToTheFuture(String area) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/freyr.fsx:line 37
+   at FSI_0005.clo@40.Invoke(String area)
+   at FSI_0003.Valhalla.mimir.runHist@123-3.Invoke(Unit unitVar) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/valhalla.fsx:line 123
+   at Microsoft.FSharp.Control.AsyncPrimitives.CallThenInvoke[T,TResult](AsyncActivation`1 ctxt, TResult result1, FSharpFunc`2 part2) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 508
+   at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
+
+
+
+
+Failed: System.Net.WebException: The remote server returned an error: (418) I'm a teapot.
+Response from https://incommodities.io/a?area=Eagle%20River&time%3D%20=2023-03-18T18%3A00:
+I'm a teapot
+ ---> System.Net.WebException: The remote server returned an error: (418) I'm a teapot.
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at <StartupCode$FSharp-Core>.$Async.callback@2006.Invoke(IAsyncResult iar) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 2021
+--- End of stack trace from previous location ---
+   at Microsoft.FSharp.Control.AsyncResult`1.Commit() in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 454
+   at <StartupCode$FSharp-Core>.$Async.AwaitAndBindChildResult@1961-6.Invoke(Boolean ok) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 1966
+   at Microsoft.FSharp.Control.AsyncPrimitives.CallThenInvokeNoHijackCheck[a,b](AsyncActivation`1 ctxt, b result1, FSharpFunc`2 userCode) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 525
+   at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
+--- End of stack trace from previous location ---
+   at FSharp.Data.HttpHelpers.catchHandler@1-1(HttpWebRequest req, Exception _arg2)
+   at FSharp.Data.HttpHelpers.getResponseAsync@1760-6.Invoke(Exception edi)
+   at Microsoft.FSharp.Control.AsyncPrimitives.CallFilterThenInvoke[T](AsyncActivation`1 ctxt, FSharpFunc`2 filterFunction, ExceptionDispatchInfo edi) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 543
+   at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
+   --- End of inner exception stack trace ---
+   at FSharp.Data.HttpHelpers.augmentWebExceptionsWithDetails@1631-2.Invoke(Unit unitVar)
+   at Microsoft.FSharp.Control.AsyncPrimitives.CallThenInvoke[T,TResult](AsyncActivation`1 ctxt, TResult result1, FSharpFunc`2 part2) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 508
+   at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
+--- End of stack trace from previous location ---
+   at Microsoft.FSharp.Control.AsyncResult`1.Commit() in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 454
+   at Microsoft.FSharp.Control.AsyncPrimitives.RunImmediate[a](CancellationToken cancellationToken, FSharpAsync`1 computation) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 1153
+   at Microsoft.FSharp.Control.AsyncPrimitives.RunSynchronously[T](CancellationToken cancellationToken, FSharpAsync`1 computation, FSharpOption`1 timeout) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 1160
+   at Microsoft.FSharp.Control.FSharpAsync.RunSynchronously[T](FSharpAsync`1 computation, FSharpOption`1 timeout, FSharpOption`1 cancellationToken)
+   at FSI_0005.fetchFromATime(String area, String backToTheFuture) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/freyr.fsx:line 25
+   at FSI_0005.backToTheFuture(String area) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/freyr.fsx:line 36
+   at FSI_0005.clo@40.Invoke(String area)
+   at FSI_0003.Valhalla.mimir.runHist@123-3.Invoke(Unit unitVar) in /home/hojbjerg/auHack/InCommodities/mycstaGOGical/valhalla.fsx:line 123
+   at Microsoft.FSharp.Control.AsyncPrimitives.CallThenInvoke[T,TResult](AsyncActivation`1 ctxt, TResult result1, FSharpFunc`2 part2) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 508
+   at Microsoft.FSharp.Control.Trampoline.Execute(FSharpFunc`2 firstAction) in D:\a\_work\1\s\src\FSharp.Core\async.fs:line 148
+
